@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//DTD"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.zzz8688.fancontrol.mapper.BusinessBoardMapper">
+
+    <resultMap id="businessBoardMap" type="io.github.zzz8688.fancontrol.entity.BusinessBoard">
+        <id property="slot" column="slot"/>
+        <result property="temperature" column="temperature"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM business_board
+    </select>
+
+    <delete id="deleteAll">
+        DELETE FROM business_board
+    </delete>
+
+    <select id="selectAll" resultMap="businessBoardMap">
+        SELECT slot, temperature, updated_at
+        FROM business_board
+        ORDER BY slot
+    </select>
+
+    <insert id="insert" parameterType="io.github.zzz8688.fancontrol.entity.BusinessBoard">
+        INSERT INTO business_board (slot, temperature, updated_at)
+        VALUES (#{slot}, #{temperature}, #{updatedAt})
+    </insert>
+
+    <update id="updateTemperature">
+        UPDATE business_board
+        SET temperature = #{temperature}, updated_at = #{updatedAt}
+        WHERE slot = #{slot}
+    </update>
+
+</mapper>

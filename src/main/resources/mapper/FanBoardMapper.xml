@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//DTD"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.zzz8688.fancontrol.mapper.FanBoardMapper">
+
+    <resultMap id="fanBoardMap" type="io.github.zzz8688.fancontrol.entity.FanBoard">
+        <id property="slot" column="slot"/>
+        <result property="speed" column="speed" javaType="io.github.zzz8688.fancontrol.domain.FanSpeed"/>
+        <result property="mode" column="mode" javaType="io.github.zzz8688.fancontrol.domain.FanBoardModeType"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM fan_board
+    </select>
+
+    <delete id="deleteAll">
+        DELETE FROM fan_board
+    </delete>
+
+    <select id="selectAll" resultMap="fanBoardMap">
+        SELECT slot, speed, mode, updated_at
+        FROM fan_board
+        ORDER BY slot
+    </select>
+
+    <select id="selectBySlot" resultMap="fanBoardMap">
+        SELECT slot, speed, mode, updated_at
+        FROM fan_board
+        WHERE slot = #{slot}
+    </select>
+
+    <insert id="insert" parameterType="io.github.zzz8688.fancontrol.entity.FanBoard">
+        INSERT INTO fan_board (slot, speed, mode, updated_at)
+        VALUES (#{slot}, #{speed}, #{mode}, #{updatedAt})
+    </insert>
+
+    <update id="updateSpeed">
+        UPDATE fan_board
+        SET speed = #{speed}, updated_at = #{updatedAt}
+        WHERE slot = #{slot}
+    </update>
+
+    <update id="updateSpeedIfAutomatic">
+        UPDATE fan_board
+        SET speed = #{speed}, updated_at = #{updatedAt}
+        WHERE slot = #{slot} AND mode = 'AUTOMATIC'
+    </update>
+
+    <update id="updateMode">
+        UPDATE fan_board
+        SET mode = #{mode}, updated_at = #{updatedAt}
+        WHERE slot = #{slot}
+    </update>
+
+</mapper>

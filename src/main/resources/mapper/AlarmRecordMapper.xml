@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//DTD"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.zzz8688.fancontrol.mapper.AlarmRecordMapper">
+
+    <resultMap id="alarmRecordMap" type="io.github.zzz8688.fancontrol.entity.AlarmRecord">
+        <id property="id" column="id"/>
+        <result property="slot" column="slot"/>
+        <result property="temperature" column="temperature"/>
+        <result property="alarmTime" column="alarm_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="io.github.zzz8688.fancontrol.entity.AlarmRecord"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO alarm_record (slot, temperature, alarm_time)
+        VALUES (#{slot}, #{temperature}, #{alarmTime})
+    </insert>
+
+    <delete id="deleteAll">
+        DELETE FROM alarm_record
+    </delete>
+
+    <select id="selectRecent" resultMap="alarmRecordMap">
+        SELECT id, slot, temperature, alarm_time
+        FROM alarm_record
+        ORDER BY alarm_time DESC, id DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

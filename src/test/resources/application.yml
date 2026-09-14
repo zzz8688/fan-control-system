@@ -1,0 +1,17 @@
+# 测试上下文统一切回 H2 内存库，避免 @WebMvcTest / @MybatisTest / @SpringBootTest
+# 误连生产 MySQL。H2 仅在 <scope>test</scope> 下可用，生产依赖 MySQL。
+spring:
+  datasource:
+    url: jdbc:h2:mem:fancontrol;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
